@@ -1,0 +1,12 @@
+.scoreBoard {
+  font-size: 20px;
+  padding: 0 40px;
+}
+
+.score {
+  text-decoration: underline;
+}
+
+.score__value {
+  font-weight: 800;
+}
