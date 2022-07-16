@@ -24,8 +24,22 @@ function App() {
     }
   }
 
+  function getRandIds(count) {
+    // It looks like there is 1154 pokemons on pokeapi.co
+    // but not all of them give data, so I took 500 to make
+    // sure everything is working
+    const maxId = 500;
+    const ids = [];
+    while(ids.length < count) {
+      const id = Math.floor(Math.random() * maxId)
+      if (!ids.includes(id))
+        ids.push(id);
+    }
+    return ids
+  }
+
   useEffect(() => {
-    const pokemonsIds = [1,2,3,4,5];
+    const pokemonsIds = getRandIds(5);
     Promise.all(pokemonsIds.map(async (id) => getPokemonById(id)))
       .then((pokemons => setPokemonDB(pokemons)))
   }, []);
