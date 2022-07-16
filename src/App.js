@@ -9,10 +9,17 @@ function App() {
   const [bestScore, setBestScore] = useState(0);
 
   async function getPokemonById(id) {
+    const capitalize = (word) => {
+      if (word.charAt(0) >= 'a' && word.charAt(0) <= 'z') {
+          const initLetter = String.fromCharCode(word.charCodeAt(0) - 32);
+          return [initLetter, word.slice(1)].join('');
+      }
+      return word
+    }
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
     const data = await response.json();
     return {
-      name: data.name,
+      name: capitalize(data.name),
       imgUrl: data.sprites.front_default
     }
   }
