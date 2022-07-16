@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import GameBoard from "./components/GameBoard";
 import ScoreBoard from "./components/ScoreBoard";
-
+import './App.css'
 function App() {
   const [pokemonDB, setPokemonDB] = useState([]);
   const [pickedCards, setPickedCards] = useState([]);
@@ -39,7 +39,13 @@ function App() {
 
   return (
     <div className="App">
-      <ScoreBoard score={score} bestScore={bestScore}/>
+      <header className="header">
+        <div>
+          <h1 className="header__heading">Memory Card</h1>
+          <p className="instructions">Catch every pokemon, but DO NOT catch the same pokemon twice!</p>
+        </div>
+        <ScoreBoard score={score} bestScore={bestScore}/>
+      </header>
       <GameBoard pokemonDB={pokemonDB} handleCardClick={handleCardClick}/>
     </div>
   );
