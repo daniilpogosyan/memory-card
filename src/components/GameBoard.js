@@ -1,4 +1,5 @@
 import Card from './Card'
+import './styles/GameBoard.css'
 
 export default function GameBoard(props) {
   function shuffle(cards) {
@@ -16,7 +17,7 @@ export default function GameBoard(props) {
   }
   
   return (
-    <ul>
+    <ul className='gameBoard'>
       {shuffle(props.pokemonDB).map((card) => (
         <li key={card.name}>
           <Card card={card} handleClick={props.handleCardClick}/>
