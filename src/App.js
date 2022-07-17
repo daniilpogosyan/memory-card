@@ -8,6 +8,11 @@ function App() {
   const [score, setScore] = useState(0);
   const [bestScore, setBestScore] = useState(0);
 
+  const gameConfig = {
+    minNumOfPokemons: 5,
+    pokemonNumStep: 3
+  }
+
   async function getPokemonById(id) {
     const capitalize = (word) => {
       if (word.charAt(0) >= 'a' && word.charAt(0) <= 'z') {
@@ -38,16 +43,35 @@ function App() {
     return ids
   }
 
-  useEffect(() => {
-    const pokemonsIds = getRandIds(5);
-    Promise.all(pokemonsIds.map(async (id) => getPokemonById(id)))
+  async function updatePokemonDB(numOfPokemons) {
+    const pokemonsIds = getRandIds(numOfPokemons);
+    return Promise.all(pokemonsIds.map(async (id) => getPokemonById(id)))
       .then((pokemons => setPokemonDB(pokemons)))
-  }, []);
+  }
+
+ 
+  useEffect(() => {
+    const allPokemonsPicked = (
+      pickedCards.length === pokemonDB.length
+      && pokemonDB.every(pokemon => pickedCards.includes(pokemon.name))
+    )
+
+    if (allPokemonsPicked) {
+      const numOfPokemons = (pokemonDB.length === 0)
+        ? gameConfig.minNumOfPokemons 
+        : pokemonDB.length + gameConfig.pokemonNumStep;
+
+        updatePokemonDB(numOfPokemons)
+          .then(() => setPickedCards([]));
+      
+    }
+  }, [pickedCards]);
 
   const handleCardClick = (event, name) => {
     if (pickedCards.includes(name)) {
       setScore(0);
-      setPickedCards([]);
+      updatePokemonDB(gameConfig.minNumOfPokemons)
+        .then(() => setPickedCards([]));
       return;
     }
     setPickedCards([...pickedCards, name])
